@@ -5,6 +5,7 @@ the project
 import argparse
 import sys
 from naja.create_workspace import check_and_create_folder, check_and_create_configuration_file
+from naja.compile_contracts import compile_contracts, compile_contract
 
 class Naja():
 	
@@ -45,8 +46,10 @@ class Naja():
 		args = parser.parse_args(sys.argv[2:])
 		if not args.contract:
 			print("compiling contracts in the Contracts folder")
+			compile_contracts()
 		else:
 			print(f"compiling contract {args.contract} in the Contracts folder")
+			compile_contract(args.contract)
 
 def main():
 	Naja()
