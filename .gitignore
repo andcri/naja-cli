@@ -1,0 +1,4 @@
+__pycache__
+build/
+naja_cli.egg_info/
+dist/
