@@ -9,7 +9,7 @@ from naja.compile_contracts import compile_contracts, compile_contract
 
 class Naja():
 	
-	folders_names = ('Build', 'Contracts', 'Ganache_scripts', 'Rinkeby_scripts', 'Ropsten_scripts') 
+	folders_names = ('Build', 'Contracts', 'Logs','Ganache_scripts', 'Rinkeby_scripts', 'Ropsten_scripts') 
 	description = "Helps you manage your Vyper smart contract project"
 	usage = "naja <command> [<args>]"
 

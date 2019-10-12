@@ -9,34 +9,42 @@ versios if they exists
 import os, json
 import shutil
 import vyper
+import logging
+from datetime import datetime
 
 def compile_contracts(path='Contracts'):
+	logging.basicConfig(level=logging.INFO, filename='Logs/contracts_compilation.log', filemode='a',\
+						format=f'{datetime.now()}  - %(process)s - %(levelname)s - %(message)s')
 	files = os.listdir(path)
 	for contract in files:
 		# check if the file is a .vy file
 		if contract[-2:] == 'vy' or contract[-2:] == 'VY':
-			# try to compile the file, if we cannot we will notify that to
-			# the user and compile the next file
 			try:
+				test_compilation(contract)
 				compile(contract)
 				print(f"Contract {contract} compiled successfuly")
-			except:
-				print(f"Compile error for contract {contract}")
-				# TODO add full error in a log file that i put inside the log folder
+				logging.info(f"Contract {contract} compiled successfuly")
+			except Exception as e:
+				print(f"""
+				Compile error for contract {contract}, 
+				you can check the full error at Logs/contracts_compilation_errors.log""")
+				logging.error(f"{contract}"+" - "+str(e))
 
 def compile_contract(contract_name, path='Contracts'):
-	"""
-	Here the user will be able to select only the contract that he wants to compile
-	by name
-	"""
+	logging.basicConfig(level=logging.INFO,filename='Logs/contracts_compilation.log', filemode='a',\
+						format=f'{datetime.now()}  - %(process)s - %(levelname)s - %(message)s')
 	files = os.listdir(path)
 	if contract_name in files:
 		try:
+			test_compilation(contract_name)
 			compile(contract_name)
 			print(f"Contract {contract_name} compiled successfuly")
-		except:
-			print(f"Compile error on contract {contract_name}")
-			# TODO add error stacktrace to log file
+			logging.info(f"Contract {contract_name} compiled successfuly")
+		except Exception as e:
+			print(f"""
+			Compile error for contract {contract_name}, 
+			you can check the full error at Logs/contracts_compilation_errors.log""")
+			logging.error(contract_name+" - "+str(e))
 
 def compile(contract):
 	path = f"Contracts/{contract}"	
@@ -57,13 +65,10 @@ def compile(contract):
 	}
 
 	json.dump(smart_contract_json, contract_json)	
-	contract_json.close()
+	contract_json.close()	
 
-
-
-
-
-
-
-
-	
+def test_compilation(contract):
+	path = f"Contracts/{contract}"
+	with open(path, 'r') as f:
+		read_contract = f.read()
+	vyper.compile_code(read_contract)
