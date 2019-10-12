@@ -9,6 +9,7 @@ INSTALLATION
 
 You can install the latest release using pip: 
 
+pip install naja-cli==0.6
 
 USAGE
 
