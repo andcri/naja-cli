@@ -25,10 +25,12 @@ def compile_contracts(path='Contracts'):
 				print(f"Contract {contract} compiled successfuly")
 				logging.info(f"Contract {contract} compiled successfuly")
 			except Exception as e:
-				print(f"""
-				Compile error for contract {contract}, 
-				you can check the full error at Logs/contracts_compilation_errors.log""")
-				logging.error(f"{contract}"+" - "+str(e))
+				print("------")
+				print(f"""Compile error for contract {contract}, you can check the full error at Logs/contracts_compilation_errors.log""")
+				print("------")
+				logging.error(f"{contract}"+"\n"+str(e))
+		else:
+			print(f'The file {contract} is not a vyper file, please check the file extention.')
 
 def compile_contract(contract_name, path='Contracts'):
 	logging.basicConfig(level=logging.INFO,filename='Logs/contracts_compilation.log', filemode='a',\
@@ -41,14 +43,14 @@ def compile_contract(contract_name, path='Contracts'):
 			print(f"Contract {contract_name} compiled successfuly")
 			logging.info(f"Contract {contract_name} compiled successfuly")
 		except Exception as e:
-			print(f"""
-			Compile error for contract {contract_name}, 
-			you can check the full error at Logs/contracts_compilation_errors.log""")
-			logging.error(contract_name+" - "+str(e))
+			print("------")
+			print(f"""Compile error for contract {contract_name}, you can check the full error at Logs/contracts_compilation_errors.log""")
+			print("------")
+			logging.error(contract_name+"\n"+str(e))
 
 def compile(contract):
 	path = f"Contracts/{contract}"	
-	contract_json = open(f'Build/{contract}.json', 'w') 
+	contract_json = open(f'Build/{contract[:-3]}.json', 'w') 
 	current_dir = os.curdir
 
 	with open(path, 'r') as f:
